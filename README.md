@@ -61,7 +61,19 @@ npm run dev
 3. В **Settings → Environment Variables** добавьте:
    - `DATABASE_URL` — pooled connection string из Neon
    - `DIRECT_URL` — direct connection string из Neon
-4. Деплой: `build` автоматически выполнит `prisma generate`, `prisma migrate deploy` и `next build`
+4. Деплой: `build` выполнит `prisma generate` и `next build`
+
+Миграции запускайте отдельно (один раз или при изменении схемы):
+
+```powershell
+npm.cmd run build:full
+```
+
+### Частые проблемы Vercel
+
+- **404 NOT_FOUND** — сборка не прошла или Framework Preset = `Other`. В **Settings → Build** выберите **Next.js**, сделайте Redeploy.
+- **Production Branch** — в репозитории ветка `estai-tech`, не `main`.
+- **Переменные** — `DATABASE_URL` (pooled) и `DIRECT_URL` (direct), **без** `channel_binding=require`.
 
 После деплоя выполните seed один раз (локально с production URL или через Neon SQL Editor):
 
