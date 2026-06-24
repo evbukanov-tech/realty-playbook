@@ -1,0 +1,213 @@
+.view-db {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.view-db h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.view-db .subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.view-db .panel {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.view-db .panel h2 {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.view-db .db-switch {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.view-db .table-list {
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.view-db .table-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.view-db .toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.view-db .toolbar-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.view-db .pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.view-db button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid #d4d4d4;
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.45rem 0.85rem;
+}
+
+.view-db button:hover:not(:disabled) {
+  background: #f5f5f5;
+}
+
+.view-db button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.view-db button.primary {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.view-db button.primary:hover:not(:disabled) {
+  background: #333;
+}
+
+.view-db button.danger {
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.view-db button.active {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.view-db .table-wrap {
+  overflow-x: auto;
+}
+
+.view-db table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.view-db th,
+.view-db td {
+  border: 1px solid #e5e5e5;
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+  max-width: 240px;
+  word-break: break-word;
+}
+
+.view-db th {
+  background: #f5f5f5;
+  font-weight: 600;
+}
+
+.view-db .row-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.view-db .error {
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.view-db .modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 50;
+}
+
+.view-db .modal {
+  background: #fff;
+  border-radius: 10px;
+  width: min(560px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  padding: 1.25rem;
+  border: 1px solid #e5e5e5;
+}
+
+.view-db .modal h3 {
+  margin-bottom: 1rem;
+}
+
+.view-db .form-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.view-db label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+}
+
+.view-db input,
+.view-db textarea,
+.view-db select {
+  font: inherit;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #d4d4d4;
+  border-radius: 6px;
+}
+
+.view-db textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.view-db .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.view-db .meta {
+  color: #666;
+  font-size: 0.875rem;
+}
