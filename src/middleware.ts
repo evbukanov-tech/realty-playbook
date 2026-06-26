@@ -1,22 +1,33 @@
-import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
-import { authConfig } from "@/auth.config";
+import type { NextRequest } from "next/server";
+
+const SESSION_COOKIE_PREFIXES = [
+  "authjs.session-token",
+  "__Secure-authjs.session-token",
+  "__Host-authjs.session-token",
+];
 
 /**
- * Middleware на Edge Runtime — без Prisma.
- * Проверяет наличие сессионной cookie; полная валидация — в Server Components.
+ * Edge middleware без NextAuth: database-сессии нельзя читать на Edge,
+ * а вызов auth() с JWT-стратегией по умолчанию удаляет cookie сессии.
+ * Достаточно проверить наличие cookie; полная валидация — в Server Components.
  */
-const { auth } = NextAuth(authConfig);
+function hasSessionCookie(req: NextRequest): boolean {
+  return req.cookies.getAll().some((cookie) =>
+    SESSION_COOKIE_PREFIXES.some(
+      (prefix) =>
+        cookie.name === prefix || cookie.name.startsWith(`${prefix}.`),
+    ),
+  );
+}
 
-export default auth((req) => {
+export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const isProtected =
     pathname.startsWith("/dashboard") || pathname.startsWith("/my-prompts");
 
-  // req.auth доступен, если сессия расшифрована; иначе — проверяем cookie
-  const hasSessionCookie = req.cookies.has("authjs.session-token");
-  const isLoggedIn = !!req.auth?.user || hasSessionCookie;
+  const isLoggedIn = hasSessionCookie(req);
 
   if (isProtected && !isLoggedIn) {
     const loginUrl = new URL("/login", req.nextUrl.origin);
@@ -29,8 +40,14 @@ export default auth((req) => {
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/my-prompts/:path*", "/login"],
+  matcher: [
+    "/dashboard",
+    "/dashboard/:path*",
+    "/my-prompts",
+    "/my-prompts/:path*",
+    "/login",
+  ],
 };
