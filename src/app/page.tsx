@@ -1,31 +1,7 @@
-import { prisma } from "@/lib/prisma";
-
-export const dynamic = "force-dynamic";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 export default async function HomePage() {
-  const notes = await prisma.note.findMany({
-    orderBy: { createdAt: "desc" },
-  });
-
-  return (
-    <main>
-      <h1>Realty Playbook</h1>
-      <p className="subtitle">Заметки из PostgreSQL (Neon)</p>
-
-      {notes.length === 0 ? (
-        <p className="empty">Заметок пока нет. Запустите seed: npm run db:seed</p>
-      ) : (
-        <ul>
-          {notes.map((note) => (
-            <li key={note.id}>
-              <strong>{note.title}</strong>
-              <time dateTime={note.createdAt.toISOString()}>
-                {note.createdAt.toLocaleString("ru-RU")}
-              </time>
-            </li>
-          ))}
-        </ul>
-      )}
-    </main>
-  );
+  const session = await auth();
+  redirect(session?.user ? "/dashboard" : "/login");
 }

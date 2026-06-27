@@ -1,6 +1,14 @@
 import { signIn } from "@/auth";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default async function LoginPage() {
   const session = await auth();
@@ -10,23 +18,28 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="auth-page">
-      <div className="auth-card">
-        <h1>ProStore</h1>
-        <p className="subtitle">Войдите, чтобы управлять своими документами</p>
-
-        <form
-          action={async () => {
-            "use server";
-            await signIn("google", { redirectTo: "/dashboard" });
-          }}
-        >
-          <button type="submit" className="btn-google">
-            <GoogleIcon />
-            Войти через Google
-          </button>
-        </form>
-      </div>
+    <main className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">ProStore</CardTitle>
+          <CardDescription>
+            Войдите, чтобы управлять своими документами
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form
+            action={async () => {
+              "use server";
+              await signIn("google", { redirectTo: "/dashboard" });
+            }}
+          >
+            <Button type="submit" variant="outline" className="w-full">
+              <GoogleIcon />
+              Войти через Google
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </main>
   );
 }
