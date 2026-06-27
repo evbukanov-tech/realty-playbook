@@ -1,0 +1,200 @@
+"use client";
+
+import { useState, useTransition } from "react";
+import { Globe, Lock, Pencil, Star, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { getPromptPreview } from "@/lib/prompt-queries";
+import {
+  deletePrompt,
+  toggleFavorite,
+  togglePublic,
+} from "@/actions/prompt-actions";
+import { PromptDialog } from "@/components/dashboard/PromptDialog";
+import { cn } from "@/lib/utils";
+
+export type PromptListItem = {
+  id: string;
+  userId: string;
+  title: string;
+  content: string;
+  isPublic: boolean;
+  isFavorite: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  user: {
+    id: string;
+    name: string | null;
+    image: string | null;
+  };
+};
+
+type PromptCardProps = {
+  prompt: PromptListItem;
+  currentUserId: string;
+  showOwner?: boolean;
+};
+
+export function PromptCard({
+  prompt,
+  currentUserId,
+  showOwner = false,
+}: PromptCardProps) {
+  const isOwner = prompt.userId === currentUserId;
+  const [editOpen, setEditOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  const handleTogglePublic = () => {
+    setError(null);
+    startTransition(async () => {
+      const result = await togglePublic(prompt.id);
+      if (!result.success) setError(result.error);
+    });
+  };
+
+  const handleToggleFavorite = () => {
+    setError(null);
+    startTransition(async () => {
+      const result = await toggleFavorite(prompt.id);
+      if (!result.success) setError(result.error);
+    });
+  };
+
+  const handleDelete = () => {
+    if (!confirm("Удалить этот промт?")) return;
+    setError(null);
+    startTransition(async () => {
+      const result = await deletePrompt(prompt.id);
+      if (!result.success) setError(result.error);
+    });
+  };
+
+  return (
+    <>
+      <Card className={cn(isPending && "opacity-60")}>
+        <CardHeader className="pb-3">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0 flex-1">
+              <CardTitle className="text-base">{prompt.title}</CardTitle>
+              {showOwner && (
+                <CardDescription className="mt-1">
+                  {prompt.user.name ?? "Аноним"}
+                </CardDescription>
+              )}
+            </div>
+            <div className="flex shrink-0 items-center gap-1">
+              {prompt.isPublic ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                  <Globe className="h-3 w-3" />
+                  Публичный
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800">
+                  <Lock className="h-3 w-3" />
+                  Приватный
+                </span>
+              )}
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            {getPromptPreview(prompt.content)}
+          </p>
+
+          <div className="flex items-center justify-between gap-2">
+            <time
+              dateTime={prompt.updatedAt.toISOString()}
+              className="text-xs text-muted-foreground"
+            >
+              {prompt.updatedAt.toLocaleDateString("ru-RU", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </time>
+
+            {isOwner && (
+              <div className="flex items-center gap-1">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleToggleFavorite}
+                  disabled={isPending}
+                  aria-label={
+                    prompt.isFavorite
+                      ? "Убрать из избранного"
+                      : "Добавить в избранное"
+                  }
+                >
+                  <Star
+                    className={cn(
+                      "h-4 w-4",
+                      prompt.isFavorite && "fill-amber-400 text-amber-400",
+                    )}
+                  />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleTogglePublic}
+                  disabled={isPending}
+                  aria-label={
+                    prompt.isPublic ? "Сделать приватным" : "Сделать публичным"
+                  }
+                >
+                  {prompt.isPublic ? (
+                    <Lock className="h-4 w-4" />
+                  ) : (
+                    <Globe className="h-4 w-4" />
+                  )}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setEditOpen(true)}
+                  disabled={isPending}
+                  aria-label="Редактировать"
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleDelete}
+                  disabled={isPending}
+                  aria-label="Удалить"
+                  className="text-destructive hover:text-destructive"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
+          </div>
+
+          {error && <p className="text-xs text-destructive">{error}</p>}
+        </CardContent>
+      </Card>
+
+      {isOwner && (
+        <PromptDialog
+          open={editOpen}
+          onOpenChange={setEditOpen}
+          mode="edit"
+          prompt={prompt}
+        />
+      )}
+    </>
+  );
+}

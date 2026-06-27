@@ -1,179 +1,62 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
-  font-family: system-ui, -apple-system, sans-serif;
-  line-height: 1.5;
-  color: #111;
-  background: #fafafa;
-  padding: 2rem;
+:root {
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.488 0.243 264.376);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.965 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.965 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.965 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.488 0.243 264.376);
+  --radius: 0.625rem;
 }
 
-main {
-  max-width: 640px;
-  margin: 0 auto;
-}
+@layer base {
+  * {
+    @apply border-border;
+  }
 
-h1 {
-  font-size: 1.75rem;
-  margin-bottom: 0.5rem;
-}
-
-p.subtitle {
-  color: #666;
-  margin-bottom: 1.5rem;
-}
-
-ul {
-  list-style: none;
-}
-
-li {
-  background: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 0.75rem;
-}
-
-li strong {
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-li time {
-  font-size: 0.875rem;
-  color: #888;
-}
-
-.empty {
-  color: #888;
-  font-style: italic;
-}
-
-/* --- Auth & dashboard --- */
-
-.auth-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-}
-
-.auth-card {
-  background: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: 12px;
-  padding: 2.5rem;
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-}
-
-.btn-google {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  padding: 0.75rem 1.25rem;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
-  background: #fff;
-  border: 1px solid #dadce0;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.15s, box-shadow 0.15s;
-}
-
-.btn-google:hover {
-  background: #f8f9fa;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.btn-outline {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  color: #555;
-  background: transparent;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.btn-outline:hover {
-  background: #f5f5f5;
-}
-
-.page-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.avatar {
-  border-radius: 50%;
-  margin-bottom: 1rem;
-}
-
-.nav-links {
-  margin-bottom: 1.5rem;
-}
-
-.nav-links a {
-  color: #2563eb;
-  text-decoration: none;
-}
-
-.nav-links a:hover {
-  text-decoration: underline;
-}
-
-.user-info {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.5rem 1rem;
-  background: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
-  padding: 1rem;
-}
-
-.user-info dt {
-  font-weight: 600;
-  color: #666;
-}
-
-.user-info dd {
-  margin: 0;
-}
-
-.user-info code {
-  font-size: 0.8rem;
-  word-break: break-all;
-}
-
-.badge {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 0.15rem 0.5rem;
-  border-radius: 4px;
-  margin-left: 0.5rem;
-  vertical-align: middle;
-}
-
-.badge-private {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-.badge-public {
-  background: #d1fae5;
-  color: #065f46;
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
 }

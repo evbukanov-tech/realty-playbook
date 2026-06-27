@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Realty Playbook",
-  description: "Заметки из PostgreSQL (Neon)",
+  title: "ProStore — Промты",
+  description: "Управление промтами",
 };
 
 export default function RootLayout({

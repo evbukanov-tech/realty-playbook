@@ -1,42 +1,42 @@
-import Link from "next/link";
-import { requireSession } from "@/lib/session";
-import { SignOutButton } from "@/components/SignOutButton";
+import { Suspense } from "react";
+import { requireUserId } from "@/lib/session";
+import { getUserPrompts } from "@/lib/prompt-queries";
+import { PromptsPageContent } from "@/components/dashboard/PromptsPageContent";
+import { PromptsListSkeleton } from "@/components/dashboard/PromptsListSkeleton";
 
-export default async function DashboardPage() {
-  const session = await requireSession();
-  const { user } = session;
+type PageProps = {
+  searchParams: Promise<{ q?: string }>;
+};
+
+async function PromptsList({ query, userId }: { query?: string; userId: string }) {
+  const prompts = await getUserPrompts(userId, query);
 
   return (
-    <main>
-      <header className="page-header">
-        <div>
-          <h1>Личный кабинет</h1>
-          <p className="subtitle">Добро пожаловать, {user.name ?? user.email}</p>
+    <PromptsPageContent
+      title="Мои промты"
+      subtitle="Управляйте своими промтами — создавайте, редактируйте и делитесь"
+      prompts={prompts}
+      currentUserId={userId}
+      showCreateButton
+      emptyTitle="Пока нет промтов"
+      emptyDescription="Создайте первый промт, чтобы он появился в этом списке."
+    />
+  );
+}
+
+export default async function DashboardPage({ searchParams }: PageProps) {
+  const userId = await requireUserId();
+  const { q } = await searchParams;
+
+  return (
+    <Suspense
+      fallback={
+        <div className="px-8 py-6">
+          <PromptsListSkeleton />
         </div>
-        <SignOutButton />
-      </header>
-
-      {user.image && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={user.image}
-          alt=""
-          width={64}
-          height={64}
-          className="avatar"
-        />
-      )}
-
-      <nav className="nav-links">
-        <Link href="/my-prompts">Мои промты</Link>
-      </nav>
-
-      <dl className="user-info">
-        <dt>User ID</dt>
-        <dd><code>{user.id}</code></dd>
-        <dt>Email</dt>
-        <dd>{user.email}</dd>
-      </dl>
-    </main>
+      }
+    >
+      <PromptsList query={q} userId={userId} />
+    </Suspense>
   );
 }

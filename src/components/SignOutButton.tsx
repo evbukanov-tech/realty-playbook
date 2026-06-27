@@ -1,16 +1,17 @@
-import { signOut } from "@/auth";
+import { signOutAction } from "@/actions/auth-actions";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-export function SignOutButton() {
+type SignOutButtonProps = {
+  className?: string;
+};
+
+export function SignOutButton({ className }: SignOutButtonProps) {
   return (
-    <form
-      action={async () => {
-        "use server";
-        await signOut({ redirectTo: "/login" });
-      }}
-    >
-      <button type="submit" className="btn-outline">
+    <form action={signOutAction}>
+      <Button type="submit" variant="outline" className={cn(className)}>
         Выйти
-      </button>
+      </Button>
     </form>
   );
 }
