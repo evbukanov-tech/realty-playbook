@@ -20,11 +20,11 @@ async function FavoritePromptsList({
   return (
     <PromptsPageContent
       title="Избранное"
-      subtitle="Промты, отмеченные звёздочкой"
+      subtitle="Документы, отмеченные звёздочкой"
       prompts={prompts}
       currentUserId={userId}
-      emptyTitle="Избранных промтов пока нет"
-      emptyDescription="Отметьте промт звёздочкой в списке «Мои промты», чтобы он появился здесь."
+      emptyTitle="Избранных документов пока нет"
+      emptyDescription="Отметьте документ звёздочкой в списке «Документы», чтобы он появился здесь."
     />
   );
 }

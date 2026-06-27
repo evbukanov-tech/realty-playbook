@@ -17,7 +17,7 @@ function buildSearchFilter(query?: string): Prisma.PromptWhereInput | undefined 
 
 export type PromptWithUser = Awaited<ReturnType<typeof getPublicPrompts>>[number];
 
-/** Промты текущего пользователя с поиском и лимитом. */
+/** Документы текущего пользователя с поиском и лимитом. */
 export async function getUserPrompts(userId: string, query?: string) {
   const search = buildSearchFilter(query);
 
@@ -34,7 +34,7 @@ export async function getUserPrompts(userId: string, query?: string) {
   });
 }
 
-/** Публичные промты всех пользователей. */
+/** Публичные документы всех пользователей. */
 export async function getPublicPrompts(query?: string) {
   const search = buildSearchFilter(query);
 
@@ -51,7 +51,7 @@ export async function getPublicPrompts(query?: string) {
   });
 }
 
-/** Избранные промты текущего пользователя. */
+/** Избранные документы текущего пользователя. */
 export async function getFavoritePrompts(userId: string, query?: string) {
   const search = buildSearchFilter(query);
 

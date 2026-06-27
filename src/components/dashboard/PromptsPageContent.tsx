@@ -41,7 +41,7 @@ export function PromptsPageContent({
           {showCreateButton && (
             <Button onClick={() => setCreateOpen(true)}>
               <Plus className="h-4 w-4" />
-              Новый промт
+              Новый документ
             </Button>
           )}
         </div>
@@ -67,7 +67,7 @@ export function PromptsPageContent({
             {showCreateButton && (
               <Button className="mt-6" onClick={() => setCreateOpen(true)}>
                 <Plus className="h-4 w-4" />
-                Создать промт
+                Создать документ
               </Button>
             )}
           </div>

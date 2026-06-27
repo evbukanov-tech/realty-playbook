@@ -90,30 +90,30 @@ export function PromptDialog({
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            {mode === "create" ? "Новый промт" : "Редактировать промт"}
+            {mode === "create" ? "Новый документ" : "Редактировать документ"}
           </DialogTitle>
           <DialogDescription>
             {mode === "create"
-              ? "Создайте промт и выберите видимость."
-              : "Измените название, текст или видимость промта."}
+              ? "Создайте документ и выберите видимость."
+              : "Измените название, текст или видимость документа."}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="title">Название</Label>
-            <Input id="title" {...register("title")} placeholder="Название промта" />
+            <Input id="title" {...register("title")} placeholder="Название документа" />
             {errors.title && (
               <p className="text-xs text-destructive">{errors.title.message}</p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="content">Текст промта</Label>
+            <Label htmlFor="content">Текст документа</Label>
             <Textarea
               id="content"
               {...register("content")}
-              placeholder="Введите текст промта…"
+              placeholder="Введите текст документа…"
               rows={6}
             />
             {errors.content && (
@@ -124,10 +124,10 @@ export function PromptDialog({
           <div className="flex items-center justify-between rounded-lg border px-3 py-3">
             <div>
               <Label htmlFor="isPublic" className="text-sm">
-                Публичный промт
+                Публичный документ
               </Label>
               <p className="text-xs text-muted-foreground">
-                Будет виден в каталоге публичных промтов
+                Будет виден в каталоге публичных документов
               </p>
             </div>
             <Switch

@@ -49,7 +49,7 @@ export function PromptSearch({
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
         className="pl-9"
-        aria-label="Поиск промтов"
+        aria-label="Поиск документов"
       />
     </div>
   );

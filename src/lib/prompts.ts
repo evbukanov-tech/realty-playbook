@@ -2,7 +2,7 @@ import { Visibility } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 /**
- * Промты текущего пользователя (включая приватные).
+ * Документы текущего пользователя (включая приватные).
  */
 export async function getMyPrompts(userId: string) {
   return prisma.realtyPlaybook.findMany({
@@ -17,7 +17,7 @@ export async function getMyPrompts(userId: string) {
 }
 
 /**
- * Публичные промты для каталога (без приватных).
+ * Публичные документы для каталога (без приватных).
  */
 export async function getPublicPrompts() {
   return prisma.realtyPlaybook.findMany({
@@ -32,7 +32,7 @@ export async function getPublicPrompts() {
 }
 
 /**
- * Один промт с проверкой доступа:
+ * Один документ с проверкой доступа:
  * - публичный — виден всем
  * - приватный — только владельцу
  */

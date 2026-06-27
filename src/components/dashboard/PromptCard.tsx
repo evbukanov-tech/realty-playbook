@@ -68,7 +68,7 @@ export function PromptCard({
   };
 
   const handleDelete = () => {
-    if (!confirm("Удалить этот промт?")) return;
+    if (!confirm("Удалить этот документ?")) return;
     setError(null);
     startTransition(async () => {
       const result = await deletePrompt(prompt.id);

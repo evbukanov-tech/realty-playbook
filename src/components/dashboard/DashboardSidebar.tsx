@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { SignOutButton } from "@/components/SignOutButton";
 
 const navItems = [
-  { href: "/dashboard", label: "Промты", icon: MessageSquare, exact: true },
+  { href: "/dashboard", label: "Документы", icon: MessageSquare, exact: true },
   { href: "/dashboard/public", label: "Публичные", icon: Globe },
   { href: "/dashboard/favorites", label: "Избранное", icon: Star },
   { href: "/dashboard/history", label: "История", icon: History, disabled: true },

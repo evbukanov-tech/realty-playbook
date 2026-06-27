@@ -7,7 +7,7 @@ export const promptFormSchema = z.object({
     .max(200, "Название не длиннее 200 символов"),
   content: z
     .string()
-    .min(1, "Введите текст промта")
+    .min(1, "Введите текст документа")
     .max(10000, "Текст не длиннее 10000 символов"),
   isPublic: z.boolean(),
 });

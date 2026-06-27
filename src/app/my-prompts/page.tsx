@@ -11,9 +11,9 @@ export default async function MyPromptsPage() {
     <main>
       <header className="page-header">
         <div>
-          <h1>Мои промты</h1>
+          <h1>Мои документы</h1>
           <p className="subtitle">
-            Приватные промты видны только вам
+            Приватные документы видны только вам
           </p>
         </div>
         <SignOutButton />
@@ -24,7 +24,7 @@ export default async function MyPromptsPage() {
       </nav>
 
       {prompts.length === 0 ? (
-        <p className="empty">У вас пока нет промтов</p>
+        <p className="empty">У вас пока нет документов</p>
       ) : (
         <ul>
           {prompts.map((prompt) => (

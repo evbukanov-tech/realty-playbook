@@ -19,13 +19,13 @@ async function PublicPromptsList({
 
   return (
     <PromptsPageContent
-      title="Публичные промты"
-      subtitle="Каталог промтов, которыми поделились пользователи"
+      title="Публичные документы"
+      subtitle="Каталог документов, которыми поделились пользователи"
       prompts={prompts}
       currentUserId={userId}
       showOwner
-      emptyTitle="Публичных промтов пока нет"
-      emptyDescription="Когда кто-то опубликует промт, он появится здесь."
+      emptyTitle="Публичных документов пока нет"
+      emptyDescription="Когда кто-то опубликует документ, он появится здесь."
     />
   );
 }

@@ -65,7 +65,7 @@ export async function updatePrompt(
 
   const existing = await getOwnedPrompt(id, userId);
   if (!existing) {
-    return { success: false, error: "Промт не найден или нет доступа" };
+    return { success: false, error: "Документ не найден или нет доступа" };
   }
 
   const { title, content, isPublic } = valuesParsed.data;
@@ -89,7 +89,7 @@ export async function deletePrompt(id: string): Promise<ActionResult> {
 
   const existing = await getOwnedPrompt(id, userId);
   if (!existing) {
-    return { success: false, error: "Промт не найден или нет доступа" };
+    return { success: false, error: "Документ не найден или нет доступа" };
   }
 
   await prisma.prompt.delete({ where: { id } });
@@ -108,7 +108,7 @@ export async function togglePublic(id: string): Promise<ActionResult> {
 
   const existing = await getOwnedPrompt(id, userId);
   if (!existing) {
-    return { success: false, error: "Промт не найден или нет доступа" };
+    return { success: false, error: "Документ не найден или нет доступа" };
   }
 
   await prisma.prompt.update({
@@ -130,7 +130,7 @@ export async function toggleFavorite(id: string): Promise<ActionResult> {
 
   const existing = await getOwnedPrompt(id, userId);
   if (!existing) {
-    return { success: false, error: "Промт не найден или нет доступа" };
+    return { success: false, error: "Документ не найден или нет доступа" };
   }
 
   await prisma.prompt.update({

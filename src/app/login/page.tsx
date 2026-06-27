@@ -13,7 +13,7 @@ export default async function LoginPage() {
     <main className="auth-page">
       <div className="auth-card">
         <h1>ProStore</h1>
-        <p className="subtitle">Войдите, чтобы управлять своими промтами</p>
+        <p className="subtitle">Войдите, чтобы управлять своими документами</p>
 
         <form
           action={async () => {

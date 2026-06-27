@@ -13,13 +13,13 @@ async function PromptsList({ query, userId }: { query?: string; userId: string }
 
   return (
     <PromptsPageContent
-      title="Мои промты"
-      subtitle="Управляйте своими промтами — создавайте, редактируйте и делитесь"
+      title="Маркетплейс практических решений Realty Playbook"
+      subtitle="Управляй и обменивайся готовыми рабочими материалами для продаж недвижимости."
       prompts={prompts}
       currentUserId={userId}
       showCreateButton
-      emptyTitle="Пока нет промтов"
-      emptyDescription="Создайте первый промт, чтобы он появился в этом списке."
+      emptyTitle="Пока нет документов"
+      emptyDescription="Создайте первый документ, чтобы он появился в этом списке."
     />
   );
 }
