@@ -39,8 +39,8 @@ export function DashboardSidebarNav({
   return (
     <div className={cn("flex h-full flex-col bg-card", className)}>
       <div className="border-b px-5 py-6">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-          ProStore
+        <p className="text-xs font-medium tracking-wide text-muted-foreground">
+          Realty Playbook
         </p>
         <p className="mt-1 truncate text-sm font-semibold">{displayName}</p>
       </div>

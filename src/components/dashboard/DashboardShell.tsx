@@ -39,8 +39,8 @@ export function DashboardShell({
             <Menu className="h-5 w-5" />
           </Button>
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              ProStore
+            <p className="text-xs font-medium tracking-wide text-muted-foreground">
+              Realty Playbook
             </p>
             <p className="truncate text-sm font-semibold">{displayName}</p>
           </div>

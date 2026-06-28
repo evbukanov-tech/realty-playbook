@@ -21,7 +21,7 @@ export default async function LoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">ProStore</CardTitle>
+          <CardTitle className="text-2xl">Realty Playbook</CardTitle>
           <CardDescription>
             Войдите, чтобы управлять своими документами
           </CardDescription>
