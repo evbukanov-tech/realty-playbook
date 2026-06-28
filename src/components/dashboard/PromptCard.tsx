@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Globe, Lock, Pencil, Star, Trash2 } from "lucide-react";
+import { Eye, Globe, Lock, Pencil, Star, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,6 +17,7 @@ import {
   togglePublic,
 } from "@/actions/prompt-actions";
 import { PromptDialog } from "@/components/dashboard/PromptDialog";
+import { PromptViewDialog } from "@/components/dashboard/PromptViewDialog";
 import { LikeButton } from "@/components/dashboard/LikeButton";
 import { cn } from "@/lib/utils";
 
@@ -51,6 +52,7 @@ export function PromptCard({
 }: PromptCardProps) {
   const isOwner = prompt.userId === currentUserId;
   const [editOpen, setEditOpen] = useState(false);
+  const [viewOpen, setViewOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -85,7 +87,19 @@ export function PromptCard({
         <CardHeader className="pb-3">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
             <div className="min-w-0 flex-1">
-              <CardTitle className="text-base leading-snug">{prompt.title}</CardTitle>
+              <CardTitle className="text-base leading-snug">
+                {!isOwner ? (
+                  <button
+                    type="button"
+                    onClick={() => setViewOpen(true)}
+                    className="text-left hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+                  >
+                    {prompt.title}
+                  </button>
+                ) : (
+                  prompt.title
+                )}
+              </CardTitle>
               {showOwner && (
                 <CardDescription className="mt-1">
                   {prompt.user.name ?? "Аноним"}
@@ -134,7 +148,17 @@ export function PromptCard({
               )}
             </div>
 
-            {isOwner && (
+            {!isOwner ? (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setViewOpen(true)}
+              >
+                <Eye className="h-4 w-4" />
+                Открыть
+              </Button>
+            ) : (
               <div className="flex items-center gap-1">
                 <Button
                   type="button"
@@ -206,6 +230,15 @@ export function PromptCard({
           onOpenChange={setEditOpen}
           mode="edit"
           prompt={prompt}
+        />
+      )}
+
+      {!isOwner && (
+        <PromptViewDialog
+          open={viewOpen}
+          onOpenChange={setViewOpen}
+          prompt={prompt}
+          showOwner={showOwner}
         />
       )}
     </>
