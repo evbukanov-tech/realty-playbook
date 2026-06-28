@@ -80,16 +80,16 @@ export function PromptCard({
     <>
       <Card className={cn(isPending && "opacity-60")}>
         <CardHeader className="pb-3">
-          <div className="flex items-start justify-between gap-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
             <div className="min-w-0 flex-1">
-              <CardTitle className="text-base">{prompt.title}</CardTitle>
+              <CardTitle className="text-base leading-snug">{prompt.title}</CardTitle>
               {showOwner && (
                 <CardDescription className="mt-1">
                   {prompt.user.name ?? "Аноним"}
                 </CardDescription>
               )}
             </div>
-            <div className="flex shrink-0 items-center gap-1">
+            <div className="flex shrink-0 items-center gap-1 self-start">
               {prompt.isPublic ? (
                 <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
                   <Globe className="h-3 w-3" />
@@ -109,7 +109,7 @@ export function PromptCard({
             {getPromptPreview(prompt.content)}
           </p>
 
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <time
               dateTime={prompt.updatedAt.toISOString()}
               className="text-xs text-muted-foreground"

@@ -20,17 +20,24 @@ const navItems = [
   { href: "/dashboard/settings", label: "Настройки", icon: Settings, disabled: true },
 ] as const;
 
-type DashboardSidebarProps = {
+type DashboardSidebarNavProps = {
   userName?: string | null;
   userEmail?: string | null;
+  onNavigate?: () => void;
+  className?: string;
 };
 
-export function DashboardSidebar({ userName, userEmail }: DashboardSidebarProps) {
+export function DashboardSidebarNav({
+  userName,
+  userEmail,
+  onNavigate,
+  className,
+}: DashboardSidebarNavProps) {
   const pathname = usePathname();
   const displayName = userName ?? userEmail ?? "Пользователь";
 
   return (
-    <aside className="flex h-full w-[280px] shrink-0 flex-col border-r bg-card">
+    <div className={cn("flex h-full flex-col bg-card", className)}>
       <div className="border-b px-5 py-6">
         <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
           ProStore
@@ -38,7 +45,7 @@ export function DashboardSidebar({ userName, userEmail }: DashboardSidebarProps)
         <p className="mt-1 truncate text-sm font-semibold">{displayName}</p>
       </div>
 
-      <nav className="flex-1 space-y-1 px-3 py-4">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
         {navItems.map((item) => {
           const isActive =
             "exact" in item && item.exact
@@ -50,7 +57,7 @@ export function DashboardSidebar({ userName, userEmail }: DashboardSidebarProps)
             return (
               <span
                 key={item.href}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground/60"
+                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground/60"
                 title="Скоро"
               >
                 <Icon className="h-4 w-4 shrink-0" />
@@ -64,8 +71,9 @@ export function DashboardSidebar({ userName, userEmail }: DashboardSidebarProps)
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavigate}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                 isActive
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
@@ -78,9 +86,22 @@ export function DashboardSidebar({ userName, userEmail }: DashboardSidebarProps)
         })}
       </nav>
 
-      <div className="border-t px-3 py-4">
+      <div className="border-t px-3 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
         <SignOutButton className="w-full justify-center" />
       </div>
+    </div>
+  );
+}
+
+type DashboardSidebarProps = {
+  userName?: string | null;
+  userEmail?: string | null;
+};
+
+export function DashboardSidebar({ userName, userEmail }: DashboardSidebarProps) {
+  return (
+    <aside className="sticky top-0 hidden h-screen w-[280px] shrink-0 flex-col border-r bg-card lg:flex">
+      <DashboardSidebarNav userName={userName} userEmail={userEmail} />
     </aside>
   );
 }
