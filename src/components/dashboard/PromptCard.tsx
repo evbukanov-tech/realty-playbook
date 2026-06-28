@@ -108,12 +108,12 @@ export function PromptCard({
             </div>
             <div className="flex shrink-0 items-center gap-1 self-start">
               {prompt.isPublic ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
                   <Globe className="h-3 w-3" />
                   Публичный
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800">
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-300">
                   <Lock className="h-3 w-3" />
                   Приватный
                 </span>

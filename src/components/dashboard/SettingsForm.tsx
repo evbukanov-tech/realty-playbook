@@ -20,6 +20,7 @@ import {
   type ProfileFormValues,
 } from "@/lib/validations/user";
 import type { UserProfile } from "@/lib/user-queries";
+import { ThemeSettings } from "@/components/dashboard/ThemeSettings";
 
 type SettingsFormProps = {
   profile: UserProfile;
@@ -127,6 +128,8 @@ export function SettingsForm({ profile }: SettingsFormProps) {
       </Card>
 
       <div className="space-y-6">
+        <ThemeSettings />
+
         <Card>
           <CardHeader>
             <CardTitle>Аккаунт</CardTitle>

@@ -19,6 +19,21 @@ export type PromptWithUser = Awaited<ReturnType<typeof getPublicPrompts>>[number
 
 export type PromptSort = "popular" | "recent";
 
+function buildLikesInclude(userId?: string) {
+  return {
+    _count: { select: { likes: true } },
+    ...(userId
+      ? {
+          likes: {
+            where: { userId },
+            select: { id: true },
+            take: 1,
+          },
+        }
+      : {}),
+  };
+}
+
 function mapPromptWithLikes<
   T extends {
     _count: { likes: number };
@@ -37,7 +52,7 @@ function mapPromptWithLikes<
 export async function getUserPrompts(userId: string, query?: string) {
   const search = buildSearchFilter(query);
 
-  return prisma.prompt.findMany({
+  const prompts = await prisma.prompt.findMany({
     where: {
       userId,
       ...(search ?? {}),
@@ -46,8 +61,11 @@ export async function getUserPrompts(userId: string, query?: string) {
     take: PROMPT_LIST_LIMIT,
     include: {
       user: { select: { id: true, name: true, image: true } },
+      ...buildLikesInclude(userId),
     },
   });
+
+  return prompts.map((prompt) => mapPromptWithLikes(prompt, userId));
 }
 
 /** Публичные документы всех пользователей. */
@@ -70,16 +88,7 @@ export async function getPublicPrompts(
     take: PROMPT_LIST_LIMIT,
     include: {
       user: { select: { id: true, name: true, image: true } },
-      _count: { select: { likes: true } },
-      ...(userId
-        ? {
-            likes: {
-              where: { userId },
-              select: { id: true },
-              take: 1,
-            },
-          }
-        : {}),
+      ...buildLikesInclude(userId),
     },
   });
 
@@ -90,7 +99,7 @@ export async function getPublicPrompts(
 export async function getFavoritePrompts(userId: string, query?: string) {
   const search = buildSearchFilter(query);
 
-  return prisma.prompt.findMany({
+  const prompts = await prisma.prompt.findMany({
     where: {
       userId,
       isFavorite: true,
@@ -100,8 +109,11 @@ export async function getFavoritePrompts(userId: string, query?: string) {
     take: PROMPT_LIST_LIMIT,
     include: {
       user: { select: { id: true, name: true, image: true } },
+      ...buildLikesInclude(userId),
     },
   });
+
+  return prompts.map((prompt) => mapPromptWithLikes(prompt, userId));
 }
 
 export function getPromptPreview(content: string, maxLength = 160): string {
