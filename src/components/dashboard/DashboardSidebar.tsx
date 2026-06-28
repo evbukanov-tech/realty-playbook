@@ -16,8 +16,8 @@ const navItems = [
   { href: "/dashboard", label: "Документы", icon: MessageSquare, exact: true },
   { href: "/dashboard/public", label: "Публичные", icon: Globe },
   { href: "/dashboard/favorites", label: "Избранное", icon: Star },
-  { href: "/dashboard/history", label: "История", icon: History, disabled: true },
-  { href: "/dashboard/settings", label: "Настройки", icon: Settings, disabled: true },
+  { href: "/dashboard/history", label: "История", icon: History },
+  { href: "/dashboard/settings", label: "Настройки", icon: Settings },
 ] as const;
 
 type DashboardSidebarNavProps = {
@@ -52,20 +52,6 @@ export function DashboardSidebarNav({
               ? pathname === item.href
               : pathname.startsWith(item.href);
           const Icon = item.icon;
-
-          if ("disabled" in item && item.disabled) {
-            return (
-              <span
-                key={item.href}
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground/60"
-                title="Скоро"
-              >
-                <Icon className="h-4 w-4 shrink-0" />
-                {item.label}
-                <span className="ml-auto text-[10px] uppercase">TODO</span>
-              </span>
-            );
-          }
 
           return (
             <Link
