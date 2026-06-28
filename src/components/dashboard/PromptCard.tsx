@@ -164,6 +164,16 @@ export function PromptCard({
                   type="button"
                   variant="ghost"
                   size="icon"
+                  onClick={() => setViewOpen(true)}
+                  disabled={isPending}
+                  aria-label="Просмотр"
+                >
+                  <Eye className="h-4 w-4" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
                   onClick={handleToggleFavorite}
                   disabled={isPending}
                   aria-label={
@@ -233,14 +243,12 @@ export function PromptCard({
         />
       )}
 
-      {!isOwner && (
-        <PromptViewDialog
-          open={viewOpen}
-          onOpenChange={setViewOpen}
-          prompt={prompt}
-          showOwner={showOwner}
-        />
-      )}
+      <PromptViewDialog
+        open={viewOpen}
+        onOpenChange={setViewOpen}
+        prompt={prompt}
+        showOwner={showOwner}
+      />
     </>
   );
 }
