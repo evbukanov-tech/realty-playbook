@@ -27,6 +27,7 @@ model User {
   prompts         Prompt[]
   realtyPlaybooks RealtyPlaybook[]
   votes           Vote[]
+  likes           Like[]
 }
 
 model Prompt {
@@ -39,11 +40,25 @@ model Prompt {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes Like[]
 
   @@index([userId, updatedAt])
   @@index([isPublic, createdAt])
   @@index([userId, isFavorite])
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  promptId  String
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, promptId])
+  @@index([promptId])
 }
 
 // Таблицы Auth.js для OAuth и server-side сессий

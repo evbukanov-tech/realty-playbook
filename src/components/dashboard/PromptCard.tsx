@@ -17,6 +17,7 @@ import {
   togglePublic,
 } from "@/actions/prompt-actions";
 import { PromptDialog } from "@/components/dashboard/PromptDialog";
+import { LikeButton } from "@/components/dashboard/LikeButton";
 import { cn } from "@/lib/utils";
 
 export type PromptListItem = {
@@ -28,6 +29,8 @@ export type PromptListItem = {
   isFavorite: boolean;
   createdAt: Date;
   updatedAt: Date;
+  likesCount?: number;
+  likedByMe?: boolean;
   user: {
     id: string;
     name: string | null;
@@ -110,16 +113,26 @@ export function PromptCard({
           </p>
 
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <time
-              dateTime={prompt.updatedAt.toISOString()}
-              className="text-xs text-muted-foreground"
-            >
-              {prompt.updatedAt.toLocaleDateString("ru-RU", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
-            </time>
+            <div className="flex flex-wrap items-center gap-3">
+              <time
+                dateTime={prompt.updatedAt.toISOString()}
+                className="text-xs text-muted-foreground"
+              >
+                {prompt.updatedAt.toLocaleDateString("ru-RU", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </time>
+
+              {prompt.isPublic && (
+                <LikeButton
+                  promptId={prompt.id}
+                  initialLiked={prompt.likedByMe ?? false}
+                  initialCount={prompt.likesCount ?? 0}
+                />
+              )}
+            </div>
 
             {isOwner && (
               <div className="flex items-center gap-1">

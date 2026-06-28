@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { PromptCard, type PromptListItem } from "@/components/dashboard/PromptCard";
 import { PromptDialog } from "@/components/dashboard/PromptDialog";
 import { PromptSearch } from "@/components/dashboard/PromptSearch";
+import { PromptSort } from "@/components/dashboard/PromptSort";
 
 type PromptsPageContentProps = {
   title: string;
@@ -13,6 +14,7 @@ type PromptsPageContentProps = {
   prompts: PromptListItem[];
   currentUserId: string;
   showOwner?: boolean;
+  showSort?: boolean;
   emptyTitle: string;
   emptyDescription: string;
   showCreateButton?: boolean;
@@ -24,6 +26,7 @@ export function PromptsPageContent({
   prompts,
   currentUserId,
   showOwner = false,
+  showSort = false,
   emptyTitle,
   emptyDescription,
   showCreateButton = false,
@@ -48,7 +51,7 @@ export function PromptsPageContent({
             </Button>
           )}
         </div>
-        <div className="mt-4 sm:mt-5">
+        <div className="mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <Suspense
             fallback={
               <div className="h-9 w-full max-w-md animate-pulse rounded-md bg-muted" />
@@ -56,6 +59,15 @@ export function PromptsPageContent({
           >
             <PromptSearch />
           </Suspense>
+          {showSort && (
+            <Suspense
+              fallback={
+                <div className="h-9 w-40 animate-pulse rounded-md bg-muted" />
+              }
+            >
+              <PromptSort />
+            </Suspense>
+          )}
         </div>
       </header>
 

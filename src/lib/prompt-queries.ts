@@ -17,6 +17,22 @@ function buildSearchFilter(query?: string): Prisma.PromptWhereInput | undefined 
 
 export type PromptWithUser = Awaited<ReturnType<typeof getPublicPrompts>>[number];
 
+export type PromptSort = "popular" | "recent";
+
+function mapPromptWithLikes<
+  T extends {
+    _count: { likes: number };
+    likes?: { id: string }[];
+  },
+>(prompt: T, userId?: string) {
+  const { _count, likes, ...rest } = prompt;
+  return {
+    ...rest,
+    likesCount: _count.likes,
+    likedByMe: userId ? (likes?.length ?? 0) > 0 : false,
+  };
+}
+
 /** Документы текущего пользователя с поиском и лимитом. */
 export async function getUserPrompts(userId: string, query?: string) {
   const search = buildSearchFilter(query);
@@ -35,20 +51,39 @@ export async function getUserPrompts(userId: string, query?: string) {
 }
 
 /** Публичные документы всех пользователей. */
-export async function getPublicPrompts(query?: string) {
+export async function getPublicPrompts(
+  query?: string,
+  sort: PromptSort = "recent",
+  userId?: string,
+) {
   const search = buildSearchFilter(query);
 
-  return prisma.prompt.findMany({
+  const prompts = await prisma.prompt.findMany({
     where: {
       isPublic: true,
       ...(search ?? {}),
     },
-    orderBy: { createdAt: "desc" },
+    orderBy:
+      sort === "popular"
+        ? { likes: { _count: "desc" } }
+        : { createdAt: "desc" },
     take: PROMPT_LIST_LIMIT,
     include: {
       user: { select: { id: true, name: true, image: true } },
+      _count: { select: { likes: true } },
+      ...(userId
+        ? {
+            likes: {
+              where: { userId },
+              select: { id: true },
+              take: 1,
+            },
+          }
+        : {}),
     },
   });
+
+  return prompts.map((prompt) => mapPromptWithLikes(prompt, userId));
 }
 
 /** Избранные документы текущего пользователя. */

@@ -5,17 +5,20 @@ import { PromptsPageContent } from "@/components/dashboard/PromptsPageContent";
 import { PromptsListSkeleton } from "@/components/dashboard/PromptsListSkeleton";
 
 type PageProps = {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; sort?: string }>;
 };
 
 async function PublicPromptsList({
   query,
+  sort,
   userId,
 }: {
   query?: string;
+  sort?: string;
   userId: string;
 }) {
-  const prompts = await getPublicPrompts(query);
+  const sortValue = sort === "popular" ? "popular" : "recent";
+  const prompts = await getPublicPrompts(query, sortValue, userId);
 
   return (
     <PromptsPageContent
@@ -24,6 +27,7 @@ async function PublicPromptsList({
       prompts={prompts}
       currentUserId={userId}
       showOwner
+      showSort
       emptyTitle="Публичных документов пока нет"
       emptyDescription="Когда кто-то опубликует документ, он появится здесь."
     />
@@ -32,7 +36,7 @@ async function PublicPromptsList({
 
 export default async function PublicPromptsPage({ searchParams }: PageProps) {
   const userId = await requireUserId();
-  const { q } = await searchParams;
+  const { q, sort } = await searchParams;
 
   return (
     <Suspense
@@ -42,7 +46,7 @@ export default async function PublicPromptsPage({ searchParams }: PageProps) {
         </div>
       }
     >
-      <PublicPromptsList query={q} userId={userId} />
+      <PublicPromptsList query={q} sort={sort} userId={userId} />
     </Suspense>
   );
 }
