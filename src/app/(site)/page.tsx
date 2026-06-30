@@ -14,7 +14,7 @@ export default async function HomePage() {
     <>
       <section className="border-b bg-gradient-to-b from-primary/5 to-background">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
-          <div className="max-w-2xl">
+          <div className="mx-auto max-w-2xl text-center">
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
               Публичные промты для вашей работы
             </h1>
@@ -22,7 +22,7 @@ export default async function HomePage() {
               Находите готовые материалы, делитесь лучшими практиками и
               сохраняйте избранное в Realty Playbook.
             </p>
-            <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-center">
+            <div className="mt-8 flex flex-col items-center justify-center gap-2 sm:flex-row">
               {userId ? (
                 <Button asChild size="lg">
                   <Link href="/dashboard">Добавить документ</Link>
