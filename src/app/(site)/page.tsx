@@ -16,11 +16,11 @@ export default async function HomePage() {
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
           <div className="mx-auto max-w-2xl text-center">
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-              Публичные промты для вашей работы
+              REALTY PLAYBOOK
             </h1>
             <p className="mt-4 text-base text-muted-foreground sm:text-lg">
-              Находите готовые материалы, делитесь лучшими практиками и
-              сохраняйте избранное в Realty Playbook.
+              Платформа, где риэлторы, маркетологи и руководители агентств
+              обмениваются готовыми рабочими материалами для продаж недвижимости.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-2 sm:flex-row">
               {userId ? (
