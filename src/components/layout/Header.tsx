@@ -26,7 +26,7 @@ export async function Header() {
           href="/"
           className="shrink-0 text-lg font-bold tracking-tight text-foreground"
         >
-          ProStore
+          Realty Playbook
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">

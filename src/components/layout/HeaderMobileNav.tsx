@@ -43,7 +43,7 @@ export function HeaderMobileNav({ isLoggedIn, className }: HeaderMobileNavProps)
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="right" className="w-[280px]">
-          <p className="text-lg font-semibold">ProStore</p>
+          <p className="text-lg font-semibold">Realty Playbook</p>
           <Separator className="my-4" />
           <nav className="flex flex-col gap-1">
             {links.map((link) => (

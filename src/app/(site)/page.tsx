@@ -20,7 +20,7 @@ export default async function HomePage() {
             </h1>
             <p className="mt-4 text-base text-muted-foreground sm:text-lg">
               Находите готовые материалы, делитесь лучшими практиками и
-              сохраняйте избранное в ProStore.
+              сохраняйте избранное в Realty Playbook.
             </p>
             <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-center">
               {userId ? (
