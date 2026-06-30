@@ -3,8 +3,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Realty Playbook — Документы",
-  description: "Управление документами",
+  title: "ProStore — Публичные промты",
+  description: "Каталог публичных промтов и рабочих материалов",
 };
 
 export default function RootLayout({

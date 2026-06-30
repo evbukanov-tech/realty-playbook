@@ -36,7 +36,7 @@ export function middleware(req: NextRequest) {
   }
 
   if (pathname === "/login" && isLoggedIn) {
-    return NextResponse.redirect(new URL("/dashboard", req.nextUrl.origin));
+    return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
 
   return NextResponse.next();

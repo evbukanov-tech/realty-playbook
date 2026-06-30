@@ -2,6 +2,21 @@ import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 
 const PROMPT_LIST_LIMIT = 10;
+const HOME_PROMPTS_LIMIT = 15;
+
+export type PublicPromptListItem = {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: Date;
+  likesCount: number;
+  likedByMe: boolean;
+  user: {
+    id: string;
+    name: string | null;
+    image: string | null;
+  };
+};
 
 function buildSearchFilter(query?: string): Prisma.PromptWhereInput | undefined {
   if (!query?.trim()) return undefined;
@@ -120,4 +135,94 @@ export function getPromptPreview(content: string, maxLength = 160): string {
   const normalized = content.replace(/\s+/g, " ").trim();
   if (normalized.length <= maxLength) return normalized;
   return `${normalized.slice(0, maxLength).trimEnd()}…`;
+}
+
+async function getLikedPromptIds(
+  userId: string,
+  promptIds: string[],
+): Promise<Set<string>> {
+  if (promptIds.length === 0) return new Set();
+
+  const likes = await prisma.like.findMany({
+    where: { userId, promptId: { in: promptIds } },
+    select: { promptId: true },
+  });
+
+  return new Set(likes.map((like) => like.promptId));
+}
+
+function mapPublicPrompt<
+  T extends {
+    id: string;
+    title: string;
+    content: string;
+    createdAt: Date;
+    user: { id: string; name: string | null; image: string | null };
+    _count: { likes: number };
+  },
+>(prompt: T, likedIds: Set<string>): PublicPromptListItem {
+  return {
+    id: prompt.id,
+    title: prompt.title,
+    content: prompt.content,
+    createdAt: prompt.createdAt,
+    likesCount: prompt._count.likes,
+    likedByMe: likedIds.has(prompt.id),
+    user: prompt.user,
+  };
+}
+
+const publicPromptInclude = {
+  user: { select: { id: true, name: true, image: true } },
+  _count: { select: { likes: true } },
+} as const;
+
+/** Данные для главной: новые и популярные публичные промты. */
+export async function getHomePrompts(userId?: string) {
+  const publicWhere = { isPublic: true };
+
+  const [recentRaw, popularRaw] = await Promise.all([
+    prisma.prompt.findMany({
+      where: publicWhere,
+      orderBy: { createdAt: "desc" },
+      take: HOME_PROMPTS_LIMIT,
+      include: publicPromptInclude,
+    }),
+    prisma.prompt.findMany({
+      where: publicWhere,
+      orderBy: { likes: { _count: "desc" } },
+      take: HOME_PROMPTS_LIMIT,
+      include: publicPromptInclude,
+    }),
+  ]);
+
+  const allIds = [
+    ...new Set([...recentRaw, ...popularRaw].map((prompt) => prompt.id)),
+  ];
+  const likedIds = userId
+    ? await getLikedPromptIds(userId, allIds)
+    : new Set<string>();
+
+  return {
+    recentPrompts: recentRaw.map((prompt) => mapPublicPrompt(prompt, likedIds)),
+    popularPrompts: popularRaw.map((prompt) =>
+      mapPublicPrompt(prompt, likedIds),
+    ),
+  };
+}
+
+/** Публичный промт по id (для страницы просмотра). */
+export async function getPublicPromptById(id: string, userId?: string) {
+  const prompt = await prisma.prompt.findFirst({
+    where: { id, isPublic: true },
+    include: publicPromptInclude,
+  });
+
+  if (!prompt) return null;
+
+  const likedIds = userId
+    ? await getLikedPromptIds(userId, [prompt.id])
+    : new Set<string>();
+
+  return mapPublicPrompt(prompt, likedIds);
 }
