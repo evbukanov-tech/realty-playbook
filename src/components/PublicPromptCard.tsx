@@ -16,7 +16,7 @@ type PublicPromptCardProps = {
 
 export function PublicPromptCard({ prompt }: PublicPromptCardProps) {
   return (
-    <Card className="flex h-full flex-col">
+    <Card className="flex h-full flex-col max-sm:shadow-none">
       <CardHeader className="pb-3">
         <CardTitle className="text-base leading-snug">{prompt.title}</CardTitle>
         <CardDescription className="flex flex-wrap items-center gap-x-2 gap-y-1">

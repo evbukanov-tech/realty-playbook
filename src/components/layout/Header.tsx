@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { auth, signIn } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { SignOutButton } from "@/components/SignOutButton";
 import { HeaderMobileNav } from "@/components/layout/HeaderMobileNav";
 import { HeaderUserMenu } from "@/components/layout/HeaderUserMenu";
@@ -20,7 +19,7 @@ export async function Header() {
     : "/login?callbackUrl=%2Fdashboard";
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-card">
+    <header className="border-b bg-card">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4 sm:h-16 sm:px-6">
         <Link
           href="/"
@@ -76,7 +75,6 @@ export async function Header() {
           />
         </div>
       </div>
-      <Separator />
     </header>
   );
 }

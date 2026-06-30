@@ -3,7 +3,6 @@ import { auth } from "@/auth";
 import { getHomePrompts } from "@/lib/prompt-queries";
 import { PublicPromptCard } from "@/components/PublicPromptCard";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 
 export default async function HomePage() {
   const session = await auth();
@@ -11,8 +10,8 @@ export default async function HomePage() {
   const { recentPrompts, popularPrompts } = await getHomePrompts(userId);
 
   return (
-    <>
-      <section className="border-b bg-gradient-to-b from-primary/5 to-background">
+    <div>
+      <section className="border-b bg-muted/30">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
           <div className="mx-auto max-w-2xl text-center">
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
@@ -42,15 +41,13 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl space-y-12 px-4 py-10 sm:px-6 sm:py-12">
+      <div className="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:space-y-12 sm:px-6 sm:py-12">
         <PromptSection
           title="Новые"
           subtitle="Последние опубликованные промты"
           prompts={recentPrompts}
           emptyMessage="Публичных промтов пока нет"
         />
-
-        <Separator />
 
         <PromptSection
           title="Популярные"
@@ -59,7 +56,7 @@ export default async function HomePage() {
           emptyMessage="Пока нет популярных промтов"
         />
       </div>
-    </>
+    </div>
   );
 }
 
